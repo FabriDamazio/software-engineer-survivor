@@ -1,8 +1,6 @@
 using Godot;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 
 public partial class SwordAbilityController : Node
 {
@@ -35,8 +33,12 @@ public partial class SwordAbilityController : Node
 			)
 		);
 		
-		var sword_instance = SwordAbility.Instantiate() as Node2D;
-		player.GetParent().AddChild(sword_instance);
-		sword_instance.GlobalPosition = closeEnemies.FirstOrDefault().GlobalPosition;
+		var swordInstance = SwordAbility.Instantiate() as Node2D;
+		player.GetParent().AddChild(swordInstance);
+		swordInstance.GlobalPosition = closeEnemies.FirstOrDefault().GlobalPosition;
+		swordInstance.GlobalPosition += Vector2.Right.Rotated(new Random().Next(0, 6)) * 4;
+
+		var enemyDirection = closeEnemies.FirstOrDefault().GlobalPosition = swordInstance.GlobalPosition;
+		swordInstance.Rotation = enemyDirection.Angle();
 	}
 }
