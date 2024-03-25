@@ -3,7 +3,7 @@ using System;
 
 public partial class BasicEnemy : CharacterBody2D
 {
-	private const float MaxSpeed = 75;
+	private const float MaxSpeed = 40;
 	public override void _Ready()
 	{
 		GetNode<Area2D>("Area2D").AreaEntered += OnAreaEntered;
