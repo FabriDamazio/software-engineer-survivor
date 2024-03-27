@@ -10,6 +10,8 @@ public partial class SwordAbilityController : Node
 	[Export]
 	public PackedScene SwordAbility;
 
+	private float _damage = 5;
+
 	public override void _Ready()
 	{
 		GetNode<Timer>("Timer").Timeout += OnTimerTimeout;
@@ -33,8 +35,9 @@ public partial class SwordAbilityController : Node
 			)
 		);
 		
-		var swordInstance = SwordAbility.Instantiate() as Node2D;
+		var swordInstance = SwordAbility.Instantiate() as SwordAbility;
 		player.GetParent().AddChild(swordInstance);
+		swordInstance.HitBoxComponent.Damage = _damage;
 		swordInstance.GlobalPosition = closeEnemies.FirstOrDefault().GlobalPosition;
 		swordInstance.GlobalPosition += Vector2.Right.Rotated(new Random().Next(0, 6)) * 4;
 
