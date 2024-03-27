@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c06h0ab7b0tfl"]
 
-[ext_resource type="Script" path="res://scenes/UI/ArenaTimerUI.cs" id="1_g83jk"]
+[ext_resource type="Script" path="res://scenes/ui/ArenaTimerUI.cs" id="1_g83jk"]
 
 [node name="ArenaTimeUI" type="CanvasLayer"]
 script = ExtResource("1_g83jk")
