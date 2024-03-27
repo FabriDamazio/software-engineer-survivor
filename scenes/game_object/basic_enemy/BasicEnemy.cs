@@ -4,8 +4,11 @@ using System;
 public partial class BasicEnemy : CharacterBody2D
 {
 	private const float MaxSpeed = 40;
+	private HealthComponent _healthComponent;
+
 	public override void _Ready()
 	{
+		_healthComponent = GetNode<HealthComponent>("HealthComponent");
 		GetNode<Area2D>("Area2D").AreaEntered += OnAreaEntered;
 	}
 
@@ -17,7 +20,7 @@ public partial class BasicEnemy : CharacterBody2D
 
 	private void OnAreaEntered(Area2D area)
 	{
-		QueueFree();
+		_healthComponent.Damage(100);
 	}
 
 	private Vector2 GetDirectionToPlayer()
