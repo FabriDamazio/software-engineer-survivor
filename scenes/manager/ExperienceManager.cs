@@ -11,6 +11,9 @@ public partial class ExperienceManager : Node
 	[Signal]
 	public delegate void ExperienceUpdatedEventHandler(float currentExperience, float targetExperience);
 
+	[Signal]
+	public delegate void LevelUpEventHandler(int level);
+
 	public override void _Ready()
 	{
 		_targetExperience = TargetExperienceGrowth;
@@ -34,6 +37,7 @@ public partial class ExperienceManager : Node
 			_targetExperience += TargetExperienceGrowth;
 			_currentExperience = 0;
 			EmitSignal(SignalName.ExperienceUpdated, _currentExperience, _targetExperience);
+			EmitSignal(SignalName.LevelUp, _currentLevel);
 		}
 	}
 
