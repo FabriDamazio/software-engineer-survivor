@@ -3,7 +3,7 @@ using Godot;
 
 public partial class ExperienceManager : Node
 {
-	private const float TargetExperienceGrowth = 5f;
+	private const float TargetExperienceGrowth = 2f;
 	private float _currentExperience;
 	private float _targetExperience;
 	private int _currentLevel;

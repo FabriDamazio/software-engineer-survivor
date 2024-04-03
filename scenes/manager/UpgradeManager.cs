@@ -9,6 +9,9 @@ public partial class UpgradeManager : Node
 	[Export]
 	public ExperienceManager ExperienceManager { get; set; }
 
+	[Export]
+	public PackedScene UpgradeScreenScene { get; set; }
+
 	// This dictionary will store the current upgrades the player has
 	// The key is the upgrade id, and the value is a dictionary that stores the upgrade and the amount of times it has been picked
 	private Dictionary<string, Dictionary<AbilityUpgrade, int>> _currentUpgrades = new Dictionary<string, Dictionary<AbilityUpgrade, int>>();
@@ -24,17 +27,22 @@ public partial class UpgradeManager : Node
 		AbilityUpgrade chosen_upgrade = UpgradePool.PickRandom();
 		if (chosen_upgrade is null) return;
 
-		if(!_currentUpgrades.ContainsKey(chosen_upgrade.Id))
+		var upgradeScreenScene = UpgradeScreenScene.Instantiate() as UpgradeScreen;
+		AddChild(upgradeScreenScene);
+		upgradeScreenScene.SetAbilityUpgrade(chosen_upgrade);
+	}
+
+	private void ApplyUpdate(AbilityUpgrade upgrade)
+	{
+		if(!_currentUpgrades.ContainsKey(upgrade.Id))
 		{
-			_currentUpgrades.Add(chosen_upgrade.Id, new Dictionary<AbilityUpgrade, int> {
-				{chosen_upgrade, 1}
+			_currentUpgrades.Add(upgrade.Id, new Dictionary<AbilityUpgrade, int> {
+				{upgrade, 1}
 			});
 		}
 		else
 		{
-			_currentUpgrades[chosen_upgrade.Id][chosen_upgrade]++;
+			_currentUpgrades[upgrade.Id][upgrade]++;
 		}
-
-		GD.Print(_currentUpgrades[chosen_upgrade.Id][chosen_upgrade]);
 	}
 }
