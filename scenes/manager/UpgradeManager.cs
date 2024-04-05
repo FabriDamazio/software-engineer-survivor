@@ -30,6 +30,12 @@ public partial class UpgradeManager : Node
 		var upgradeScreenScene = UpgradeScreenScene.Instantiate() as UpgradeScreen;
 		AddChild(upgradeScreenScene);
 		upgradeScreenScene.SetAbilityUpgrade(chosen_upgrade);
+		upgradeScreenScene.UpgradeSelected += OnUpgradeSelected;
+	}
+
+	private void OnUpgradeSelected(AbilityUpgrade upgrade)
+	{
+		ApplyUpdate(upgrade);
 	}
 
 	private void ApplyUpdate(AbilityUpgrade upgrade)
