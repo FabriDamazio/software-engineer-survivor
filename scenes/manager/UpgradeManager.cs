@@ -39,16 +39,33 @@ public partial class UpgradeManager : Node
 	}
 
 	private void ApplyUpdate(AbilityUpgrade upgrade)
-	{
-		if(!_currentUpgrades.ContainsKey(upgrade.Id))
-		{
-			_currentUpgrades.Add(upgrade.Id, new Dictionary<AbilityUpgrade, int> {
-				{upgrade, 1}
-			});
-		}
-		else
-		{
-			_currentUpgrades[upgrade.Id][upgrade]++;
-		}
-	}
+    {
+        if (!_currentUpgrades.ContainsKey(upgrade.Id))
+        {
+            _currentUpgrades.Add(upgrade.Id, new Dictionary<AbilityUpgrade, int> {
+                {upgrade, 1}
+            });
+        }
+        else
+        {
+            _currentUpgrades[upgrade.Id][upgrade]++;
+        }
+
+        var convertedUpgrades = ToGodotDictionary();
+
+        var gameEvents = GetNode<GameEvents>("/root/GameEvents");
+        gameEvents.EmitAbilityUpgradeAdded(upgrade, convertedUpgrades);
+    }
+
+    private Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<AbilityUpgrade, int>> ToGodotDictionary()
+    {
+        Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<AbilityUpgrade, int>> convertedUpgrades = new Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<AbilityUpgrade, int>>();
+        foreach (var kvp in _currentUpgrades)
+        {
+            convertedUpgrades.Add(kvp.Key, new Godot.Collections.Dictionary<AbilityUpgrade, int>(kvp.Value));
+        }
+
+        return convertedUpgrades;
+    }
+
 }
