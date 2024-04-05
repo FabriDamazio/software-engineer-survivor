@@ -59,8 +59,6 @@ public partial class SwordAbilityController : Node
 		double percentReduction = currentUpgrades["sword_rate"].Values.Sum() * 0.1d;
 		var timer = GetNode<Timer>("Timer");
 		timer.WaitTime = _baseWaitTime * (1 - percentReduction);
-		timer.Start();
-
-		GD.Print($"Sword rate upgrade added. New rate: {timer.WaitTime}");
+		timer.Start();		
 	}
 }
