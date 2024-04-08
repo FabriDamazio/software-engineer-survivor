@@ -43,7 +43,8 @@ public partial class SwordAbilityController : Node
 		);
 		
 		var swordInstance = SwordAbility.Instantiate() as SwordAbility;
-		player.GetParent().AddChild(swordInstance);
+		var foregroundLayer = GetTree().GetFirstNodeInGroup("foreground_layer");
+		foregroundLayer.AddChild(swordInstance);
 		swordInstance.HitBoxComponent.Damage = _damage;
 		swordInstance.GlobalPosition = closeEnemies.FirstOrDefault().GlobalPosition;
 		swordInstance.GlobalPosition += Vector2.Right.Rotated(new Random().Next(0, 6)) * 4;
