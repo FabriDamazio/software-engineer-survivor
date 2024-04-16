@@ -9,6 +9,9 @@ public partial class HealthComponent : Node
 	[Signal]
 	public delegate void DiedEventHandler();
 
+	[Signal]
+	public delegate void HealthChangedEventHandler();
+
 	public float CurrentHealth { get; set; }
 
 	public override void _Ready()
@@ -20,7 +23,15 @@ public partial class HealthComponent : Node
 	{
 		CurrentHealth = Math.Max(CurrentHealth - damage, 0);
 		Callable callable = new Callable(this, nameof(CheckDeath));
+		EmitSignal(SignalName.HealthChanged);
 		callable.CallDeferred();
+	}
+
+	public float GetHealthPercent()
+	{
+		if(MaxHealth <= 0) return 0;
+
+		return Math.Min(CurrentHealth / MaxHealth, 1);
 	}
 
 	private void CheckDeath()

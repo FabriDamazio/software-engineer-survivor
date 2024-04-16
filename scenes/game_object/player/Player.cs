@@ -7,13 +7,19 @@ public partial class Player : CharacterBody2D
 	private const float AcelerationSmoothing = 25;
 	private int _numberCollidingBodies = 0;
 	private Timer _damageIntervalTimer;
+	private HealthComponent _healthComponent;
+	private ProgressBar _healthBar;
 
 	public override void _Ready()
 	{
-		_damageIntervalTimer = GetNode<Timer>("DamageIntervalTimer");
-		_damageIntervalTimer.Timeout += OnDamageIntervalTimerTimeout;
 		GetNode<Area2D>("CollisionArea2D").BodyEntered += OnBodyEntered;
 		GetNode<Area2D>("CollisionArea2D").BodyExited += OnBodyExited;
+		_damageIntervalTimer = GetNode<Timer>("DamageIntervalTimer");
+		_damageIntervalTimer.Timeout += OnDamageIntervalTimerTimeout;
+		_healthBar = GetNode<ProgressBar>("HealthBar");
+		_healthComponent = GetNode<HealthComponent>("HealthComponent");
+		_healthComponent.HealthChanged += OnHealthChanged;
+		UpdateHealthDisplay();
 	}
 
     public override void _Process(double delta)
@@ -37,8 +43,13 @@ public partial class Player : CharacterBody2D
 	{
 		if (_numberCollidingBodies == 0 || !_damageIntervalTimer.IsStopped()) return;
 				
-		GetNode<HealthComponent>("HealthComponent").Damage(1);
+		_healthComponent.Damage(1);
 		_damageIntervalTimer.Start();
+	}
+
+	private void UpdateHealthDisplay()
+	{
+		_healthBar.Value = _healthComponent.GetHealthPercent();
 	}
 
 	
@@ -48,16 +59,19 @@ public partial class Player : CharacterBody2D
 		CheckDealDamage();
     }
 
-	
     private void OnBodyExited(Node2D body)
     {
         _numberCollidingBodies--;
     }
-
 	
     private void OnDamageIntervalTimerTimeout()
     {
         CheckDealDamage();
     }
+
+	private void OnHealthChanged()
+	{
+		UpdateHealthDisplay();
+	}
 
 }
