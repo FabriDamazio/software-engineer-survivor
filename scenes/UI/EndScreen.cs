@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class VictoryScreen : CanvasLayer
+public partial class EndScreen : CanvasLayer
 {
 	public override void _Ready()
 	{
@@ -13,6 +13,12 @@ public partial class VictoryScreen : CanvasLayer
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+	}
+
+	public void SetDefeat()
+	{
+		GetNode<Label>("%TitleLabel").Text = "Defeat";
+		GetNode<Label>("%DescriptionLabel").Text = "You lost!";
 	}
 
 	private void OnRestartButtonPressed()
