@@ -24,7 +24,8 @@ ArenaTimeManager = NodePath("../ArenaTimeManager")
 
 [node name="ArenaTimeManager" parent="." instance=ExtResource("2_x3v4d")]
 
-[node name="EnemyManager" parent="." instance=ExtResource("1_bnlrg")]
+[node name="EnemyManager" parent="." node_paths=PackedStringArray("ArenaTimeManager") instance=ExtResource("1_bnlrg")]
+ArenaTimeManager = NodePath("../ArenaTimeManager")
 
 [node name="ExperienceManager" parent="." instance=ExtResource("4_s5yvy")]
 
